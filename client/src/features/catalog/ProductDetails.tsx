@@ -3,19 +3,19 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import agent from "../../app/api/agent";
 import { Product } from "../../app/model/product";
 
 const ProductDetails = () => {
-    const { id } = useParams();
+    const { id } = useParams<{ id: any }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/products/' + id)
-            .then((res) => setProduct(res.data))
+        agent.Catalog.details(parseInt(id))
+            .then((res) => setProduct(res))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }, [id]);
