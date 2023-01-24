@@ -6,6 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import Loading from "../../app/layout/Loading";
 import { Product } from "../../app/model/product";
 
 const ProductDetails = () => {
@@ -20,11 +22,10 @@ const ProductDetails = () => {
             .finally(() => setLoading(false));
     }, [id]);
 
-    if (loading) return (
-        <Typography variant="h6"> Loading...</Typography>
-    );
+    if (loading) return <Loading message="Loading product..." />
+
     if (!product) return (
-        <Typography variant="h6">product not found</Typography>
+        <NotFound />
     )
     return (
         <Grid container spacing={6}>
